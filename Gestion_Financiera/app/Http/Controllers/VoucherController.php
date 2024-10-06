@@ -43,14 +43,14 @@ class VoucherController extends Controller
     $code = $this->extractCode($text);
     $name = $this->extractName($text);
     $totalAmount = $this->extractTotalAmount($text);
-
-
+    $TICKET = $this->TICKET($text);
+    $CONCEPTO = $this->CONCEPTO($text);
     
 
     // Pasar todos los datos a la vista
     return view('voucher.result', compact(
         'sequence', 'operationDate', 'trx',
-        'cashierCode', 'officeCode', 'operationTime','documentType', 'code', 'name', 'totalAmount',
+        'cashierCode','CONCEPTO', 'officeCode','TICKET', 'operationTime','documentType', 'code', 'name', 'totalAmount',
     ));
     }
     
@@ -99,6 +99,18 @@ class VoucherController extends Controller
     private function extractCode($text)
     {
         preg_match('/CODIGO:\s*(\d+)/', $text, $matches);
+        return $matches[1] ?? 'No encontrado';
+    }
+
+    private function CONCEPTO($text)
+    {
+        preg_match('/CONCEPTO DE PAGO:\s*(\d+)/', $text, $matches);
+        return $matches[1] ?? 'No encontrado';
+    }
+
+    private function TICKET($text)
+    {
+        preg_match('/NRO. TICKET:\s*(\d+)/', $text, $matches);
         return $matches[1] ?? 'No encontrado';
     }
     

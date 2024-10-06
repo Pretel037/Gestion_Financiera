@@ -11,4 +11,6 @@
 <p><strong>Número de operación:</strong> {{ $sequence }}</p>
 <p><strong>Número de operación:</strong> {{ $totalAmount }}</p>
 
+<p><strong>Número de operación:</strong> {{ $TICKET }}</p>
+<p><strong>Número de operación:</strong> {{ $CONCEPTO }}</p>
 
