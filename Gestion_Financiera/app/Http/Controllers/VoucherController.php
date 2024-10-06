@@ -34,9 +34,8 @@ class VoucherController extends Controller
     // Nuevas extracciones
     $sequence = $this->extractSequence($text);
     $operationDate = $this->extractOperationDate($text);
-    $trx = $this->extractTrx($text);
-    $cashierCode = $this->extractCashierCode($text);
-    $officeCode = $this->extractOfficeCode($text);
+
+
     $operationTime = $this->extractOperationTime($text);
 
     $documentType = $this->extractDocumentType($text);
@@ -49,14 +48,15 @@ class VoucherController extends Controller
 
     // Pasar todos los datos a la vista
     return view('voucher.result', compact(
-        'sequence', 'operationDate', 'trx',
-        'cashierCode','CONCEPTO', 'officeCode','TICKET', 'operationTime','documentType', 'code', 'name', 'totalAmount',
+        'sequence', 'operationDate',
+        'CONCEPTO','TICKET', 'operationTime','documentType', 'code', 'name', 'totalAmount',
     ));
     }
     
     private function extractSequence($text)
     {
-        preg_match('/(\d{6}-\d)/', $text, $matches);
+        preg_match('/(\d{6})\s*-/', $text, $matches);
+    
         return $matches[1] ?? 'No encontrado';
     }
     
@@ -66,24 +66,7 @@ class VoucherController extends Controller
         return $matches[1] ?? 'No encontrado';
     }
     
-    private function extractTrx($text)
-    {
-        preg_match('/(\d{4})(?=\s+\d{4}\s+\d{4})/', $text, $matches);
-        return $matches[1] ?? 'No encontrado';
-    }
-    
-    private function extractCashierCode($text)
-    {
-        preg_match('/(\d{4})(?=\s+\d{4}\s+\d{2}:\d{2}:\d{2})/', $text, $matches);
-        return $matches[1] ?? 'No encontrado';
-    }
-    
-    private function extractOfficeCode($text)
-    {
-        preg_match('/(\d{4})(?=\s+\d{2}:\d{2}:\d{2})/', $text, $matches);
-        return $matches[1] ?? 'No encontrado';
-    }
-    
+
     private function extractOperationTime($text)
     {
         preg_match('/(\d{2}:\d{2}:\d{2})/', $text, $matches);
@@ -104,7 +87,7 @@ class VoucherController extends Controller
 
     private function CONCEPTO($text)
     {
-        preg_match('/CONCEPTO DE PAGO:\s*(\d+)/', $text, $matches);
+        preg_match('/CONCEPTO DE PAGO:\s*(.+)/', $text, $matches);
         return $matches[1] ?? 'No encontrado';
     }
 
