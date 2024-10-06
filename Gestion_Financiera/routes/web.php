@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+use App\Http\Controllers\VoucherController;
+
+Route::get('/voucher', function () {
+    return view('voucher.voucher');
 });
+
+Route::post('/voucher/process', [VoucherController::class, 'process'])->name('voucher.process');
+
