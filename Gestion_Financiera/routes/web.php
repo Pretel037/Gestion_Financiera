@@ -5,7 +5,10 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\CreateTokenController;
-use App\Http\Controllers\plugins\ProcesoController;
+use App\Http\Controllers\ProcesoController;
+use App\Http\Controllers\CulqiController;
+use App\Http\Controllers\PagosSIGGAController;
+
 Route::get('/voucher', function () {
     return view('voucher.voucher');
 });
@@ -19,18 +22,29 @@ Route::get('/pagos', function () {
     return view('pagos');
 });
 
-Route::get('/payment', function () {
-    return view('payment');
-});
+
 
 Route::get('/index', function () {
     return view('index');
 });
 
-Route::post('/proceso', [ProcesoController::class, 'proceso'])->name('proceso');
 
 
-use App\Http\Controllers\PagoController;
 
-Route::post('/proceso1', [PagoController::class, 'procesarPago']);
 
+
+Route::get('/payment', [CulqiController::class, 'showPaymentForm'])->name('payment.form');
+Route::post('/process-payment', [CulqiController::class, 'processPayment'])->name('process.payment');
+Route::get('/payment-success', function() { 
+    return view('payment-success'); 
+})->name('payment.success');
+Route::get('/yape-waiting', [CulqiController::class, 'yapeWaiting'])->name('yape.waiting');
+
+
+
+
+Route::get('/import', function () {
+    return view('import');
+});
+
+Route::post('/import', [PagosSIGGAController::class, 'importExcel'])->name('pagos.import');
