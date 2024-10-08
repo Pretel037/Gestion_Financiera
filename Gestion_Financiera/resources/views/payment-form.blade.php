@@ -57,8 +57,8 @@
     paymentMethods: {
       tarjeta: true,
       yape: true,
-      bancaMovil: false,
-      agente: false,
+      bancaMovil: true,
+      agente: true,
       billetera: true,
       cuotealo: true,
     },

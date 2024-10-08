@@ -18,7 +18,7 @@ class CulqiController extends Controller
     {
         $data = [
             'sid' => session()->getId(),
-            'totCart' => 10,
+            'totCart' => 1000,
             'dni_comp' => '72042683',
             'direccion' => 'Francisco Lazo',
             'departamento' => 'Lima',

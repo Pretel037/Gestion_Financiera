@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\YapeVoucherController;
+
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\CreateTokenController;
@@ -14,7 +16,12 @@ Route::get('/voucher', function () {
 });
 
 Route::post('/voucher/process', [VoucherController::class, 'process'])->name('voucher.process');
-Route::post('/process-payment', [PaymentController::class, 'processPayment']);
+Route::post('/voucher/processyape', [YapeVoucherController::class, 'process'])->name('voucher.processyape');
+
+
+
+
+/**Route::post('/process-payment', [PaymentController::class, 'processPayment']);
 Route::post('/create-token', [TokenController::class, 'createToken'])->name('create.token'); // Ruta para crear el token
 Route::post('/create-token', [CreateTokenController::class, 'createToken'])->name('create.token');
 
@@ -26,25 +33,28 @@ Route::get('/pagos', function () {
 
 Route::get('/index', function () {
     return view('index');
-});
+});**/
 
 
 
 
 
-
+//pagos con culqui
 Route::get('/payment', [CulqiController::class, 'showPaymentForm'])->name('payment.form');
 Route::post('/process-payment', [CulqiController::class, 'processPayment'])->name('process.payment');
 Route::get('/payment-success', function() { 
     return view('payment-success'); 
 })->name('payment.success');
 Route::get('/yape-waiting', [CulqiController::class, 'yapeWaiting'])->name('yape.waiting');
+//pagos con fin
 
 
 
-
+//subi execel
 Route::get('/import', function () {
     return view('import');
 });
 
 Route::post('/import', [PagosSIGGAController::class, 'importExcel'])->name('pagos.import');
+
+//subi execel fin
