@@ -2,7 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\PlinVoucherController;
 use App\Http\Controllers\YapeVoucherController;
+
+
+
+use App\Http\Controllers\RegistroVouchers;
 
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TokenController;
@@ -11,14 +16,26 @@ use App\Http\Controllers\ProcesoController;
 use App\Http\Controllers\CulqiController;
 use App\Http\Controllers\PagosSIGGAController;
 
+
+
 Route::get('/voucher', function () {
     return view('voucher.voucher');
-});
+})->name('voucher');
+
 
 Route::post('/voucher/process', [VoucherController::class, 'process'])->name('voucher.process');
+Route::post('/voucher/processplin', [PlinVoucherController::class, 'process'])->name('voucher.processplin');
 Route::post('/voucher/processyape', [YapeVoucherController::class, 'process'])->name('voucher.processyape');
+Route::post('/voucher/confirm', [PlinVoucherController::class, 'confirm'])->name('voucher.confirm');
 
 
+Route::get('/voucher/success', function () {
+    return view('voucher.success');
+})->name('voucher.success');
+
+
+
+Route::get('/registro', [RegistroVouchers::class, 'index'])->name('registro');
 
 
 /**Route::post('/process-payment', [PaymentController::class, 'processPayment']);
