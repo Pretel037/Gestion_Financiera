@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Voucher</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Confirmación de Voucher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
@@ -15,23 +15,36 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Número de operación:</strong> {{ $sequence }}</p>
-                        <p><strong>Fecha de Pago:</strong> {{ $operationDate }}</p>
-                        <p><strong>Hora de Pago:</strong> {{ $operationTime }}</p>
-                        <p><strong>Tipo de Documento:</strong> {{ $documentType }}</p>
-                        <p><strong>Código:</strong> {{ $code }}</p>
+                        <p><strong>Fecha de Pago:</strong> {{ $fecha }}</p>
+                        <p><strong>Hora de Pago:</strong> {{ $hora }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Nombre:</strong> {{ $name }}</p>
-                        <p><strong>Secuencia de Pago:</strong> {{ $sequence }}</p>
-                        <p><strong>Monto de Pago:</strong> {{ $totalAmount }}</p>
-                        <p><strong>Número de Ticket:</strong> {{ $TICKET }}</p>
-                        <p><strong>Concepto de Pago:</strong> {{ $CONCEPTO }}</p>
+                        <p><strong>Número de Operación:</strong> {{ $operacion }}</p>
+                        <p><strong>Monto:</strong> {{ $monto }}</p>
                     </div>
                 </div>
+                <form action="{{ route('voucher.confirm') }}" method="POST" class="mt-4">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="codigo_dni" class="form-label">Código/DNI</label>
+                        <input type="text" name="codigo_dni" id="codigo_dni" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="servicio" class="form-label">Servicio</label>
+                        <input type="text" name="servicio" id="servicio" class="form-control" required>
+                    </div>
+                    <input type="hidden" name="fecha" value="{{ $fecha }}">
+                    <input type="hidden" name="hora" value="{{ $hora }}">
+                    <input type="hidden" name="operacion" value="{{ $operacion }}">
+                    <input type="hidden" name="monto" value="{{ $monto }}">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success me-md-2">Confirmar y Guardar</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

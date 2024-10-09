@@ -31,32 +31,34 @@ class PlinVoucherController extends Controller
         $text = $ocr->run();
 
         // Extraer datos
-        $Fecha = $this->Fecha($text);
+        $fecha = $this->Fecha($text);
         $operacion = $this->operacion($text);
-        $Monto = $this->Monto($text);
+        $monto = $this->Monto($text);
         $hora = $this->hora($text);
 
         // Pasar los datos a una vista previa para confirmar
-        return view('voucher.Plinresul', compact('Fecha', 'operacion', 'Monto', 'hora', 'imageName'));
+        return view('voucher.Plinresul', compact('fecha', 'operacion', 'monto', 'hora', 'imageName'));
     }
+
 
     public function confirm(Request $request)
     {
-        // Guardar los datos en la base de datos después de la confirmación
+       
+    
         $voucher = new Voucher();
         $voucher->fecha = $request->input('fecha');
         $voucher->hora = $request->input('hora');
         $voucher->operacion = $request->input('operacion');
-        
-        // Procesar el monto correctamente
-        $montoStr = $request->input('monto');
-        $monto = $this->processMonto($montoStr);
-        $voucher->monto = $monto;
-        
+        $voucher->monto = $this->processMonto($request->input('monto'));
+        $voucher->codigo_dni = $request->input('codigo_dni');
+        $voucher->servicio = $request->input('servicio');
+    
         $voucher->save();
-
+    
         return redirect()->route('voucher.success')->with('success', 'Voucher guardado correctamente');
     }
+
+
 
     private function processMonto($montoStr)
     {

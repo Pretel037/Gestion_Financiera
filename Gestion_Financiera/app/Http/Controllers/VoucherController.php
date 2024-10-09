@@ -32,26 +32,49 @@ class VoucherController extends Controller
 
     
     // Nuevas extracciones
-    $sequence = $this->extractSequence($text);
-    $operationDate = $this->extractOperationDate($text);
-
-
-    $operationTime = $this->extractOperationTime($text);
-
-    $documentType = $this->extractDocumentType($text);
-    $code = $this->extractCode($text);
-    $name = $this->extractName($text);
-    $totalAmount = $this->extractTotalAmount($text);
-    $TICKET = $this->TICKET($text);
-    $CONCEPTO = $this->CONCEPTO($text);
-    
+    $operacion = $this->extractSequence($text);
+    $fecha = $this->extractOperationDate($text);
+    $hora = $this->extractOperationTime($text);
+    $monto = $this->extractTotalAmount($text);
+ 
 
     // Pasar todos los datos a la vista
     return view('voucher.result', compact(
-        'sequence', 'operationDate',
-        'CONCEPTO','TICKET', 'operationTime','documentType', 'code', 'name', 'totalAmount',
+        'operacion', 'fecha',
+         'hora', 'monto',
     ));
     }
+
+    public function confirm(Request $request)
+    {
+        // Guardar los datos en la base de datos después de la confirmación
+        $voucher = new Voucher();
+        $voucher->fecha = $request->input('fecha');
+        $voucher->hora = $request->input('hora');
+        $voucher->operacion = $request->input('operacion');
+        
+        // Procesar el monto correctamente
+        $montoStr = $request->input('monto');
+        $monto = $this->processMonto($montoStr);
+        $voucher->monto = $monto;
+        $voucher->codigo_dni = $request->input('codigo_dni');
+        $voucher->servicio = $request->input('servicio');
+        
+        $voucher->save();
+
+        return redirect()->route('voucher.success')->with('success', 'Voucher guardado correctamente');
+    }
+    private function processMonto($montoStr)
+    {
+        // Eliminar el símbolo de moneda y espacios
+        $montoStr = preg_replace('/[^0-9.]/', '', $montoStr);
+        
+        // Convertir a float
+        return floatval($montoStr);
+    }
+
+
+
     
     private function extractSequence($text)
     {
@@ -73,18 +96,56 @@ class VoucherController extends Controller
         return $matches[1] ?? 'No encontrado';
     }
 
+
+    private function extractTotalAmount($text)
+    {
+      
+    preg_match('/.*IMPORTE TOTAL:.*?(\d+(?:\.\d{2})?)/', $text, $matches);
+    return $matches[1] ?? 'No encontrado';
+   
+    }
+
+
+/*
+
+   //$documentType = $this->extractDocumentType($text);
+    //$code = $this->extractCode($text);
+   // $name = $this->extractName($text);
+   
+    //$TICKET = $this->TICKET($text);
+    //$CONCEPTO = $this->CONCEPTO($text);
+    
+
+    <p><strong>Número de operación:</strong> {{ $sequence }}</p>
+    <p><strong>Número de Ticket:</strong> {{ $TICKET }}</p>
+    <p><strong>Concepto de Pago:</strong> {{ $CONCEPTO }}</p>
+    <p><strong>Nombre:</strong> {{ $name }}</p>
+    <p><strong>Código:</strong> {{ $code }}</p>
+    <p><strong>Tipo de Documento:</strong> {{ $documentType }}</p>
+
+
+
+
     private function extractDocumentType($text)
     {
         preg_match('/TIPO DE DOCUMENTO:\s*(.+)/', $text, $matches);
         return $matches[1] ?? 'No encontrado';
     }
-    
     private function extractCode($text)
     {
         preg_match('/CODIGO:\s*(\d+)/', $text, $matches);
         return $matches[1] ?? 'No encontrado';
     }
+    
 
+    private function extractName($text)
+    {
+        preg_match('/NOMBRE:\s*(.+)/', $text, $matches);
+        return $matches[1] ?? 'No encontrado';
+    }
+
+
+     
     private function CONCEPTO($text)
     {
         preg_match('/CONCEPTO DE PAGO:\s*(.+)/', $text, $matches);
@@ -97,20 +158,11 @@ class VoucherController extends Controller
         return $matches[1] ?? 'No encontrado';
     }
     
-    private function extractName($text)
-    {
-        preg_match('/NOMBRE:\s*(.+)/', $text, $matches);
-        return $matches[1] ?? 'No encontrado';
-    }
+    
+    */
     
 
-    private function extractTotalAmount($text)
-    {
-      // Busca la línea que contiene "IMPORTE TOTAL"
-    preg_match('/.*IMPORTE TOTAL:.*?(\d+(?:\.\d{2})?)/', $text, $matches);
-    return $matches[1] ?? 'No encontrado';
-   
-    }
+    
     
 
 

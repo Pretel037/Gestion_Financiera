@@ -15,24 +15,30 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Fecha de Pago:</strong> {{ $Fecha }}</p>
+                        <p><strong>Fecha de Pago:</strong> {{ $fecha }}</p>
                         <p><strong>Hora de Pago:</strong> {{ $hora }}</p>
                     </div>
                     <div class="col-md-6">
                         <p><strong>Número de Operación:</strong> {{ $operacion }}</p>
-                        <p><strong>Monto:</strong> {{ $Monto }}</p>
+                        <p><strong>Monto:</strong> {{ $monto }}</p>
                     </div>
                 </div>
-                <form action="{{ route('voucher.confirm') }}" method="POST" class="mt-4">
+                
+                <form action="{{ route('voucher.confirm') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="fecha" value="{{ $Fecha }}">
+                    <div class="mb-3">
+                        <label for="codigo_dni" class="form-label">Código/DNI</label>
+                        <input type="text" name="codigo_dni" id="codigo_dni" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="servicio" class="form-label">Servicio</label>
+                        <input type="text" name="servicio" id="servicio" class="form-control" required>
+                    </div>
+                    <input type="hidden" name="fecha" value="{{ $fecha }}">
                     <input type="hidden" name="hora" value="{{ $hora }}">
                     <input type="hidden" name="operacion" value="{{ $operacion }}">
-                    <input type="hidden" name="monto" value="{{ $Monto }}">
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="submit" class="btn btn-success me-md-2">Confirmar y Guardar</button>
-                        <a href="{{ url()->previous() }}" class="btn btn-danger">Cancelar</a>
-                    </div>
+                    <input type="hidden" name="monto" value="{{ $monto }}">
+                    <button type="submit" class="btn btn-primary">Confirmar Voucher</button>
                 </form>
             </div>
         </div>
