@@ -83,7 +83,9 @@
                 <li><a href="{{ route('import') }}"><i class="fas fa-home mr-2"></i>INICIO</a></li>
                 <li><a href="{{ route('registro') }}"><i class="fas fa-users mr-2"></i>USUARIOS</a></li>
                 <li><a href="{{ route('import') }}"><i class="fas fa-book mr-2"></i>CURSOS</a></li>
-                <li><a href="{{ route('vouchers') }}"><i class="fas fa-chart-bar mr-2"></i>REPORTES</a></li>
+                <li><a href="{{ route('vouchers') }}"><i class="fas fa-chart-bar mr-2"></i>VOUCHERS VALIDADOS</a></li>
+                <li><a href="{{ route('mostrarReporte') }}"><i class="fas fa-chart-bar mr-2"></i>REPORTES</a></li>
+                
                 <li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf

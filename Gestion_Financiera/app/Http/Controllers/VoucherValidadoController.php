@@ -10,7 +10,7 @@ class VoucherValidadoController extends Controller
 {
     public function index()
     {
-        $vouchers = VoucherValidado::all(); // Retrieve all vouchers
+        $vouchers = VoucherValidado::all(); // Retrieve all vouchers+
         return view('vouchers_validados', compact('vouchers')); // Pass data to the view
     }
 }

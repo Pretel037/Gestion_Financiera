@@ -22,6 +22,8 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\VoucherValidadoController;
 
+use App\Http\Controllers\VoucherReportController;
+
 //registro voucher
 Route::get('/voucher', function () {
     return view('voucher.voucher');
@@ -102,5 +104,9 @@ Route::middleware(['auth'])->group(function () {
     //ruta para ver los vouchers validados
     Route::get('/vouchers', [VoucherValidadoController::class, 'index'])->name('vouchers');
 
+
+
+    Route::get('/reporte', [VoucherReportController::class, 'mostrarReporte'])->name('mostrarReporte');
+    Route::post('/descargar-pdf', [VoucherReportController::class, 'descargarPDF'])->name('descargarPDF');
 
 });
