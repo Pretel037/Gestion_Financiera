@@ -1,4 +1,5 @@
-
+@extends('index')
+@section('content')
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,8 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
+    <div class="container-fluid"> <!-- Cambia a container-fluid para que ocupe todo el ancho -->
+        <div class="row justify-content-center align-items-center" style="height: 100%;">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
@@ -30,7 +31,7 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="file" class="form-label">Seleccionar archivo Excel:</label>
-                                <input class="form-control" type="file" name="file" id="file" accept=".xlsx,.xls" required>
+                                <input class="for m-control" type="file" name="file" id="file" accept=".xlsx,.xls" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Subir archivo</button>
@@ -44,3 +45,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+@endsection

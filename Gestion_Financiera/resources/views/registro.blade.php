@@ -1,3 +1,8 @@
+
+//lista de los voucher registrados por alumnos
+
+@extends('index')
+@section('content')
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,8 +13,13 @@
 
     
 </head>
+
+
+
 <body>
-    <div class="container mt-5">
+    <div class="container-fluid"> <!-- Cambia a container-fluid para que ocupe todo el ancho -->
+
+        
         <h1 class="mb-4">Listado de Vouchers</h1>
 
         <div class="table-responsive">
@@ -44,3 +54,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+@endsection

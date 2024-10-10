@@ -19,6 +19,9 @@ use App\Http\Controllers\PagosSIGGAController;
 
 use App\Http\Controllers\AuthController;
 
+
+use App\Http\Controllers\VoucherValidadoController;
+
 //registro voucher
 Route::get('/voucher', function () {
     return view('voucher.voucher');
@@ -56,7 +59,7 @@ Route::get('/yape-waiting', [CulqiController::class, 'yapeWaiting'])->name('yape
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
 
 
 
@@ -88,8 +91,16 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    //ruta para ver registro de banco
+    //ruta para salir 
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+
+    //ruta para ver registro de banco
+  
+
+
+    //ruta para ver los vouchers validados
+    Route::get('/vouchers', [VoucherValidadoController::class, 'index'])->name('vouchers');
 
 
 });
