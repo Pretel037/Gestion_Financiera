@@ -45,7 +45,7 @@
         }
         .btn-custom {
             background-color: #007bff;
-            color: rgb(15, 53, 245)55, 255, 255);
+            color: rgb(73, 104, 255)55, 255, 255);
             border-radius: 20px;
             padding: 10px 20px;
             transition: background-color 0.3s ease;
@@ -82,7 +82,7 @@
                 <div class="card payment-option" onclick="redirectToRoute('{{ route('payment.form') }}')">
                     <img src="https://img.freepik.com/vector-premium/metodo-pago_7198-28.jpg" alt="Yape Logo" class="card-img-top">
                     <div class="card-body">
-                        <h5 class="card-title"> Pagar un Servicio</h5>
+                        <h5 class="card-title">Pagar un Servicio</h5>
                     </div>
                 </div>
             </div>
