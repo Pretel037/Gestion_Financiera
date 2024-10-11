@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- Token CSRF para seguridad -->
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
     <title>Pago con Culqi</title>
 </head>
 <body>
 
     <h1>Realizar Pago</h1>
 
-    <!-- Formulario básico para el pago -->
+
     <form id="payment-form">
         <label for="card_number">Número de tarjeta:</label>
         <input type="text" id="card_number" name="card_number" maxlength="16" required><br><br>

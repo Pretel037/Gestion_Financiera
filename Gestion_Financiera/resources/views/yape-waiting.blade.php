@@ -15,8 +15,7 @@
     </div>
 
     <script>
-        // Aquí podrías agregar un script para consultar periódicamente el estado del pago
-        // y redirigir cuando se confirme
+
     </script>
 </body>
 </html>

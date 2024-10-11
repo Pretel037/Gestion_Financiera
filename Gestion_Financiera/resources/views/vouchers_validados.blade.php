@@ -1,41 +1,78 @@
 @extends('index')
 @section('content')
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vouchers Validados Table</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <title>Vouchers Validados</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+   <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Montserrat', sans-serif;
+        }
+        h1 {
+            color: #004581;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-family:n
+        }
+        .table {
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(255, 255, 255);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .table th {
+            background-color: #004581;
+            color: white;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #ffffff;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #d7ecff;
+        }
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
-        <h1 class="text-center">Vouchers Validados Table</h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>N° operación</th>
-                    <th>Fecha de pago</th>
-                    <th>Monto</th>
-                    <th>DNI/Código</th>
-                    <th>Nombres</th>
-                    <th>Nombre del curso/servicio</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($vouchers as $voucher)
+        <h1 class="text-center">Vouchers Validados</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
                     <tr>
-                        <td>{{ $voucher->numero_operacion }}</td>
-                        <td>{{ $voucher->fecha_pago }}</td>
-                        <td>{{ $voucher->monto }}</td>
-                        <td>{{ $voucher->dni_codigo }}</td>
-                        <td>{{ $voucher->nombres }}</td>
-                        <td>{{ $voucher->nombre_curso_servicio }}</td>
+                        <th scope="col">N° operación</th>
+                        <th scope="col">Fecha de pago</th>
+                        <th scope="col">Monto (S/)</th>
+                        <th scope="col">DNI/Código</th>
+                        <th scope="col">Nombres</th>
+                        <th scope="col">Curso/Servicio</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach($vouchers as $voucher)
+                        <tr>
+                            <td>{{ $voucher->numero_operacion }}</td>
+                            <td>{{ $voucher->fecha_pago }}</td>
+                            <td>S/ {{ number_format($voucher->monto, 2) }}</td>
+                            <td>{{ $voucher->dni_codigo }}</td>
+                            <td>{{ $voucher->nombres }}</td>
+                            <td>{{ $voucher->nombre_curso_servicio }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 @endsection

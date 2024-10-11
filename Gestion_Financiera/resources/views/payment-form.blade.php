@@ -15,6 +15,8 @@
     <button type="submit" class="button btn-proceed-checkout" id="buyButton" name="prePago" title="Procesar con el Pago">
         <span>Procesar con el Pago</span>
     </button>
+    <a href="{{ route('inicio') }}" class="btn btn-secondary">Volver a la Página Inicial</a>
+        
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -29,9 +31,9 @@
         var totalPago = '{{ $totCart }}';
 
         Culqi.settings({
-            title: 'Tienda en Linea - Frank Moreno',
+            title: 'SISTEMA DE GESTION FINANCIERA',
             currency: 'PEN',
-            description: 'Pago Productos varios - Frank Moreno',
+            description: 'SIGF - UNS',
             amount: totalPago,
             metadata: {
                 order_id: "{{ $sid }}"

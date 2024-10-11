@@ -1,6 +1,3 @@
-
-//lista de los voucher registrados por alumnos
-
 @extends('index')
 @section('content')
 <!DOCTYPE html>
@@ -10,24 +7,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Vouchers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-    
+   <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            text-align: center;
+            color: #004581;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .table {
+            background-color: white;
+            border-radius: 10px;
+        }
+        .table th {
+            background-color: #004581;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #d7ecff;
+        }
+    </style>
 </head>
 
-
-
 <body>
-    <div class="container-fluid"> <!-- Cambia a container-fluid para que ocupe todo el ancho -->
+    <div class="container-fluid"> 
 
-        
         <h1 class="mb-4">Listado de Vouchers</h1>
 
         <div class="table-responsive">
             <table class="table table-striped table-hover">
-
-                
-
-                <thead class="table-vibrant">
+                <thead>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Fecha</th>
@@ -43,7 +69,7 @@
                             <td>{{ $voucher->fecha }}</td>
                             <td>{{ $voucher->hora }}</td>
                             <td>{{ $voucher->operacion }}</td>
-                            <td>{{ $voucher->monto }}</td>
+                            <td>S/ {{ number_format($voucher->monto, 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>

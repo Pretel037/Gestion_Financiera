@@ -24,6 +24,13 @@ use App\Http\Controllers\VoucherValidadoController;
 
 use App\Http\Controllers\VoucherReportController;
 
+
+Route::get('/', function () {
+    return view('formulario');
+})->name('inicio');
+
+
+
 //registro voucher
 Route::get('/voucher', function () {
     return view('voucher.voucher');
@@ -66,9 +73,6 @@ Route::post('login', [AuthController::class, 'login']);
 
 
 
-Route::get('register', [RegisterControllerAuth::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterControllerAuth::class, 'register']);
-
 
 
 Route::middleware(['auth'])->group(function () {
@@ -105,8 +109,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vouchers', [VoucherValidadoController::class, 'index'])->name('vouchers');
 
 
-
+    /// ruta para ver
     Route::get('/reporte', [VoucherReportController::class, 'mostrarReporte'])->name('mostrarReporte');
     Route::post('/descargar-pdf', [VoucherReportController::class, 'descargarPDF'])->name('descargarPDF');
+
+    // registrar usuarios
+    Route::get('register', [RegisterControllerAuth::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [RegisterControllerAuth::class, 'register']);
+    
+    
 
 });
