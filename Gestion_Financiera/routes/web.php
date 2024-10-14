@@ -27,6 +27,9 @@ use App\Http\Controllers\VoucherReportController;
 
 
 use App\Http\Controllers\Voucher_Controller;
+use App\Http\Controllers\ReportController;
+
+
 
 Route::get('/', function () {
     return view('formulario');
@@ -73,9 +76,8 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 
 
-
-
-
+// Ruta para obtener los pagos y mostrar el reporte
+// Ruta para obtener los pagos y mostrar el reporte
 
 
 
@@ -124,6 +126,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/validaciones', [Voucher_Controller::class, 'index'])->name('validaciones.index');
 Route::get('/buscar-voucher', [Voucher_Controller::class, 'buscarVoucher'])->name('buscar.voucher');
 Route::post('/validar-voucher', [Voucher_Controller::class, 'validarVoucher'])->name('validar.voucher');
+
+
+
+    // reportes de cursos balance
+
+    Route::get('/reportes/pagos', [ReportController::class, 'obtenerPagos'])->name('reportes.obtenerPagos');
+
+    // Ruta para generar el PDF
+    Route::get('/reportes/pagos/pdf', [ReportController::class, 'generarPDF'])->name('reportes.generarPDF');
+
 
 
 

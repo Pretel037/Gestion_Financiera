@@ -50,15 +50,17 @@ class VoucherReportController extends Controller
     {
         $mes = $request->input('mes');
         $año = $request->input('año');
-
-        // Replicamos la lógica de obtención de datos del método mostrarReporte
+    
+        // Obtén los vouchers validados para el mes y año especificados
         $vouchers = VoucherValidado::whereYear('fecha_pago', $año)
                                     ->whereMonth('fecha_pago', $mes)
                                     ->get();
-
+    
+        // Contar el número total de vouchers y calcular los ingresos totales
         $numeroVouchers = $vouchers->count();
         $ingresosTotales = $vouchers->sum('monto');
-
+    
+        // Agrupar los vouchers por día
         $pagosPorDia = $vouchers->groupBy(function ($voucher) {
             return Carbon::parse($voucher->fecha_pago)->format('d');
         })->map(function ($dayVouchers) {
@@ -67,14 +69,15 @@ class VoucherReportController extends Controller
                 'monto_total' => $dayVouchers->sum('monto')
             ];
         });
-
+    
+        // Extraer los días, números de vouchers y montos totales por día
         $dias = $pagosPorDia->keys()->toArray();
         $numeroVouchersPorDia = $pagosPorDia->pluck('numero_vouchers')->toArray();
         $montosPorDia = $pagosPorDia->pluck('monto_total')->toArray();
-
+    
         // Generar el PDF con los datos
         $pdf = PDF::loadView('reporte_pdf', compact('numeroVouchers', 'ingresosTotales', 'dias', 'numeroVouchersPorDia', 'montosPorDia', 'mes', 'año'));
-
+    
         // Descargar el PDF
         return $pdf->download('reporte_vouchers_' . $mes . '_' . $año . '.pdf');
     }

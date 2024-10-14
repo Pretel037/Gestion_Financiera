@@ -80,8 +80,9 @@
     
 </head>
 <body>
+
     <div class="container">
-        <!-- Sidebar -->
+         
         <nav class="sidebar">
             <div class="sidebar-header">
                 <img src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png" alt="User Avatar">
@@ -93,10 +94,11 @@
                 <li><a href="{{ route('registro') }}"><i class="fas fa-users mr-2"></i>      VOUCHERS REGISTRADOS</a></li>
                 <li><a href="{{ route('import') }}"><i class="fas fa-book mr-2"></i>      VOUCHERS SIGGA</a></li>
                 <li><a href="{{ route('vouchers') }}"><i class="fas fa-chart-bar mr-2"></i>      VOUCHERS VALIDADOS</a></li>
-                <li><a href="{{ route('mostrarReporte') }}"><i class="fas fa-chart-bar mr-2"></i>      REPORTES</a></li>
+                <li><a href="{{ route('mostrarReporte') }}"><i class="fas fa-chart-bar mr-2"s></i>      REPORTE GENERAL</a></li>
                 <li><a href="{{ route('register') }}"><i class="fas fa-users mr-2"></i>      CREAR USUARIOS</a></li>
                 <li><a href="{{ route('validaciones.index') }}"><i class="fas fa-users mr-2"></i>     VALIDAR VOUCHERS</a></li>
-                
+                <li><a href="{{ route('reportes.obtenerPagos') }}"><i class="fas fa-users mr-2"></i>     REPORTE FINANCIERO CURSOS</a></li>
+   
                 
                 <li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

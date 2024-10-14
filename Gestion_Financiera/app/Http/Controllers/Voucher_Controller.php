@@ -10,7 +10,7 @@ use DB;
 
 class Voucher_Controller extends Controller
 {
-    // Muestra la vista principal con los datos de ambas tablas
+    
     public function index()
     {
          // Obtener los números de operación que ya han sido validados
@@ -34,7 +34,7 @@ class Voucher_Controller extends Controller
                              ->first();
     
         if ($voucher) {
-            // Obtener el pago correspondiente aquí
+            
             $pagoSigga = PagosSiggass::where('numero_operacion', $voucher->operacion)->first(); // O cualquier otra relación
     
             return response()->json([

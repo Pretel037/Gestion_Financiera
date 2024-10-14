@@ -3,27 +3,27 @@
 
 <style>
     .table {
-    border-collapse: collapse; /* Colapsa bordes */
+    border-collapse: collapse; 
 }
 
 .table th, .table td {
-    padding: 10px; /* Espaciado interno */
-    text-align: center; /* Centrar texto */
-    border: 1px solid #dee2e6; /* Borde sutil */
+    padding: 10px; 
+    text-align: center; 
+    border: 1px solid #dee2e6; 
 }
 
 .table th {
-    background-color: #007bff; /* Color de fondo del encabezado */
-    color: white; /* Color del texto del encabezado */
+    background-color: #007bff; 
+    color: white; 
 }
 
 .btn {
-    margin-top: 5px; /* Espaciado superior en botones */
-    transition: background-color 0.3s; /* Animación para el hover */
+    margin-top: 5px; 
+    transition: background-color 0.3s; 
 }
 
 .btn:hover {
-    background-color: #0056b3; /* Color más oscuro en hover */
+    background-color: #0056b3; 
 }
 
 </style>
