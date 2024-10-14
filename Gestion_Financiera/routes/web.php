@@ -25,6 +25,9 @@ use App\Http\Controllers\VoucherValidadoController;
 use App\Http\Controllers\VoucherReportController;
 
 
+
+use App\Http\Controllers\Voucher_Controller;
+
 Route::get('/', function () {
     return view('formulario');
 })->name('inicio');
@@ -75,6 +78,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 
 
+
 Route::middleware(['auth'])->group(function () {
 
 //ruta inicio
@@ -117,6 +121,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('register', [RegisterControllerAuth::class, 'showRegistrationForm'])->name('register');
     Route::post('register', [RegisterControllerAuth::class, 'register']);
     
-    
+    Route::get('/validaciones', [Voucher_Controller::class, 'index'])->name('validaciones.index');
+Route::get('/buscar-voucher', [Voucher_Controller::class, 'buscarVoucher'])->name('buscar.voucher');
+Route::post('/validar-voucher', [Voucher_Controller::class, 'validarVoucher'])->name('validar.voucher');
+
+
 
 });

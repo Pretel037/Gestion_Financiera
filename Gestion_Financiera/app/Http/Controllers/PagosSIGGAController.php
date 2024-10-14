@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PagosSIGGA;
+use App\Models\PagosSiggass;
 use Shuchkin\SimpleXLSX; // Importar la clase SimpleXLSX correctamente
 
 class PagosSIGGAController extends Controller
@@ -20,23 +20,31 @@ class PagosSIGGAController extends Controller
 
             if ($xlsx = \Shuchkin\SimpleXLSX::parse($filePath)) {
                 foreach ($xlsx->rows() as $index => $row) {
-                    // Ignora la primera fila si contiene encabezados
+                    // Ignorar la primera fila si contiene encabezados
                     if ($index == 0) {
                         continue;
                     }
             
                     // Validar que los datos no sean nulos y tengan el formato correcto
-                    $monto = is_numeric($row[0]) ? $row[0] : 0; // Cambia a 0 si no es numérico
-                    $alumno = isset($row[1]) ? $row[1] : ''; // Valor por defecto vacío si no está
-                    $curso = isset($row[2]) ? $row[2] : ''; // Valor por defecto vacío si no está
-                    $fechade_pago = isset($row[3]) ? date('Y-m-d', strtotime($row[3])) : date('Y-m-d'); // Valor por defecto hoy si no está
-            
+                    $numero_operacion = isset($row[0]) ? $row[0] : ''; 
+                    $nombres = isset($row[1]) ? $row[1] : ''; 
+                    $apellidos = isset($row[2]) ? $row[2] : ''; 
+                    $monto_pago = is_numeric($row[3]) ? $row[3] : 0; // Cambia a 0 si no es numérico
+                    $fecha_pago = isset($row[4]) ? date('Y-m-d', strtotime($row[4])) : date('Y-m-d'); // Valor por defecto hoy si no está
+                    $hora = isset($row[5]) ? $row[5] : ''; 
+                    $dni = isset($row[6]) ? $row[6] : ''; 
+                    $sucursal = isset($row[7]) ? $row[7] : ''; 
+
                     // Insertar los datos en la base de datos
-                    PagosSIGGA::create([
-                        'monto' => $monto,
-                        'alumno' => $alumno,
-                        'curso' => $curso,
-                        'fechade_pago' => $fechade_pago,
+                    PagosSiggass::create([
+                        'numero_operacion' => $numero_operacion,
+                        'nombres' => $nombres,
+                        'apellidos' => $apellidos,
+                        'monto_pago' => $monto_pago,
+                        'fecha_pago' => $fecha_pago,
+                        'hora' => $hora,
+                        'dni' => $dni,
+                        'sucursal' => $sucursal,
                     ]);
                 }
                 return redirect()->back()->with('success', 'Datos importados exitosamente');
@@ -44,9 +52,8 @@ class PagosSIGGAController extends Controller
                 return redirect()->back()->with('error', SimpleXLSX::parseError());
             }
             
-            } else {
-                return redirect()->back()->with('error', 'La clase SimpleXLSX no se encuentra disponible');
-            }
-        
+        } else {
+            return redirect()->back()->with('error', 'Por favor, cargue un archivo válido');
+        }
     }
 }

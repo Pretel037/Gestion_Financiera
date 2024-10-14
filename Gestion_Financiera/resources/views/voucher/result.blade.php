@@ -30,8 +30,13 @@
                         <input type="text" name="codigo_dni" id="codigo_dni" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="servicio" class="form-label">Servicio</label>
-                        <input type="text" name="servicio" id="servicio" class="form-control" required>
+                        <label for="servicio" class="form-label">Curso</label>
+                        <select name="servicio" id="servicio" class="form-control" required>
+                            <option value="">Selecciona un curso</option>
+                            @foreach($courses as $course)
+                                <option value="{{ $course->name }}">{{ $course->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <input type="hidden" name="fecha" value="{{ $fecha }}">
                     <input type="hidden" name="hora" value="{{ $hora }}">

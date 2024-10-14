@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use thiagoalessio\TesseractOCR\TesseractOCR;
-
+use Carbon\Carbon;
+use App\Models\Course;
 class VoucherController extends Controller
 {
     public function process(Request $request)
@@ -33,15 +34,15 @@ class VoucherController extends Controller
     
     // Nuevas extracciones
     $operacion = $this->extractSequence($text);
-    $fecha = $this->extractOperationDate($text);
+    $fecha = $this->extractAndConvertOperationDate($text);
     $hora = $this->extractOperationTime($text);
     $monto = $this->extractTotalAmount($text);
- 
+    $courses = Course::all();
 
     // Pasar todos los datos a la vista
     return view('voucher.result', compact(
         'operacion', 'fecha',
-         'hora', 'monto',
+         'hora', 'monto','courses'
     ));
     }
 
@@ -49,31 +50,55 @@ class VoucherController extends Controller
     {
         // Guardar los datos en la base de datos después de la confirmación
         $voucher = new Voucher();
-        $voucher->fecha = $request->input('fecha');
         $voucher->hora = $request->input('hora');
-        $voucher->operacion = $request->input('operacion');
+        $voucher->operacion = $request->input('oper acion');
         
         // Procesar el monto correctamente
         $montoStr = $request->input('monto');
         $monto = $this->processMonto($montoStr);
         $voucher->monto = $monto;
+
         $voucher->codigo_dni = $request->input('codigo_dni');
         $voucher->servicio = $request->input('servicio');
-        
+        $voucher->fecha = $request->input('fecha');
         $voucher->save();
 
         return redirect()->route('voucher.success')->with('success', 'Voucher guardado correctamente');
     }
     private function processMonto($montoStr)
     {
-        // Eliminar el símbolo de moneda y espacios
         $montoStr = preg_replace('/[^0-9.]/', '', $montoStr);
-        
-        // Convertir a float
         return floatval($montoStr);
     }
 
-
+    private function extractAndConvertOperationDate($text)
+    {
+        
+        if (preg_match('/(\d{2}[A-Z]{3}\d{4})/', $text, $matches)) {
+            $fechaStr = $matches[1];
+            
+            // Mapeo de abreviaturas de meses en español a números
+            $meses = [
+                'ENE' => '01', 'FEB' => '02', 'MAR' => '03', 'ABR' => '04',
+                'MAY' => '05', 'JUN' => '06', 'JUL' => '07', 'AGO' => '08',
+                'SEP' => '09', 'OCT' => '10', 'NOV' => '11', 'DIC' => '12'
+            ];
+    
+            // Convierte la fecha extraída a formato YYYY-MM-DD
+            if (preg_match('/(\d{2})([A-Z]{3})(\d{4})/', $fechaStr, $fechaMatches)) {
+                $dia = $fechaMatches[1];
+                $mes = $meses[$fechaMatches[2]] ?? null;
+                $anio = $fechaMatches[3];
+    
+                if ($mes) {
+                    // Retorna la fecha en el formato Y-m-d (YYYY-MM-DD)
+                    return Carbon::createFromFormat('Y-m-d', "$anio-$mes-$dia")->format('Y-m-d');
+                }
+            }
+        }
+    
+        return 'No encontrado'; // Retorna 'No encontrado' si no se puede extraer o convertir la fecha
+    }
 
     
     private function extractSequence($text)

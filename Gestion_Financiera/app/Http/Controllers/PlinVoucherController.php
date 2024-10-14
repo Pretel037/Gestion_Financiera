@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use App\Models\Voucher;
+use Carbon\Carbon;
+use App\Http\Controllers\DateTime;
 
 class PlinVoucherController extends Controller
 {
@@ -31,7 +33,7 @@ class PlinVoucherController extends Controller
         $text = $ocr->run();
 
         // Extraer datos
-        $fecha = $this->Fecha($text);
+        $fecha = $this->extractAndConvertOperationDate($text);
         $operacion = $this->operacion($text);
         $monto = $this->Monto($text);
         $hora = $this->hora($text);
@@ -60,6 +62,34 @@ class PlinVoucherController extends Controller
 
 
 
+    private function extractAndConvertOperationDate($text)
+    {
+        
+        if (preg_match('/(\d{2}) (\w{3}) (\d{4})/', $text, $matches)) {
+            $dia = $matches[1];
+            $mesAbreviado = $matches[2];
+            $anio = $matches[3];
+    
+            // Mapeo de abreviaturas de meses en español a números
+            $meses = [
+                'Ene' => '01', 'Feb' => '02', 'Mar' => '03', 'Abr' => '04',
+                'May' => '05', 'Jun' => '06', 'Jul' => '07', 'Ago' => '08',
+                'Sep' => '09', 'Oct' => '10', 'Nov' => '11', 'Dic' => '12'
+            ];
+    
+            if (isset($meses[$mesAbreviado])) {
+                $mes = $meses[$mesAbreviado];
+                // Retorna la fecha en el formato Y-m-d (YYYY-MM-DD)
+                return Carbon::createFromFormat('Y-m-d', "$anio-$mes-$dia")->format('Y-m-d');
+            }
+        }
+    
+        return 'No encontrado'; // Retorna 'No encontrado' si no se puede extraer o convertir la fecha
+    }
+
+
+
+
     private function processMonto($montoStr)
     {
         // Eliminar el símbolo de moneda y espacios
@@ -77,8 +107,21 @@ class PlinVoucherController extends Controller
 
     private function hora($text)
     {
-        preg_match('/\d{2}:\d{2} [APM]{2}/i', $text, $matches);
-        return $matches[0] ?? 'No encontrado';
+    // Extrae la hora con AM o PM
+    if (preg_match('/\d{2}:\d{2} [APM]{2}/i', $text, $matches)) {
+        $horaStr = $matches[0];
+
+        // Convierte la hora de 12 horas (AM/PM) a 24 horas
+        $dateTime = \DateTime::createFromFormat('h:i A', $horaStr);
+        
+        if ($dateTime) {
+            // Devuelve la hora en formato de 24 horas (HH:mm)
+            return $dateTime->format('H:i');
+        }
+    }
+
+   
+    return 'No encontrado';
     }
 
     private function operacion($text)

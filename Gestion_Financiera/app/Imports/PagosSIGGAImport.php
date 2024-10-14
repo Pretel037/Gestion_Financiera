@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\PagosSIGGA;
 
+
 class PagosSIGGAImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)

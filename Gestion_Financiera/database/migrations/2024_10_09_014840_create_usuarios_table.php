@@ -6,19 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->id(); // Crea una columna 'id' autoincremental
-            $table->string('name'); // Nombre del usuario
-            $table->string('email')->unique(); // Correo electrónico único
-            $table->string('password'); // Contraseña
-            $table->rememberToken(); // Token para recordar la sesión
-            $table->timestamps(); // Tiempos de creación y actualización
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
         });
+
+       
     }
 
     /**
@@ -27,5 +27,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('usuarios');
+
     }
 };

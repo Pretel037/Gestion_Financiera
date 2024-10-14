@@ -21,5 +21,10 @@ class Voucher extends Model
         'codigo_dni',
         'servicio'
     ];
+
+    public function validaciones()
+    {
+        return $this->hasMany(VoucherValidado::class, 'voucher_id');
+    }
 }
 

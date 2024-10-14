@@ -31,16 +31,21 @@
             height: 100vh; 
             z-index: 1000; 
         }
+
         .sidebar-header {
     padding: 20px;
     border-bottom: 5px solid #2a00fa;
     text-align: center; 
+        }
         .sidebar-header img { 
             width: 100px; 
             height: 100px; 
             border-radius: 50%; 
             align-self: center;
         }
+
+
+        
         .sidebar-menu { 
             padding: 0; 
             list-style-type: none; 
@@ -90,6 +95,7 @@
                 <li><a href="{{ route('vouchers') }}"><i class="fas fa-chart-bar mr-2"></i>      VOUCHERS VALIDADOS</a></li>
                 <li><a href="{{ route('mostrarReporte') }}"><i class="fas fa-chart-bar mr-2"></i>      REPORTES</a></li>
                 <li><a href="{{ route('register') }}"><i class="fas fa-users mr-2"></i>      CREAR USUARIOS</a></li>
+                <li><a href="{{ route('validaciones.index') }}"><i class="fas fa-users mr-2"></i>     VALIDAR VOUCHERS</a></li>
                 
                 
                 <li>
