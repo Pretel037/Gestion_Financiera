@@ -6,14 +6,18 @@
     <title>@yield('title', 'GESTION FINANCIERA')</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        body, html { 
+        body,  { 
             margin: 0; 
             padding: 0; 
-            font-family: Arial, sans-serif; 
+            font-family: 'Arial', sans-serif; 
             height: 100%; 
             overflow: hidden; 
         }
+
+        
         .container { 
             display: flex; 
             height: 100vh; 
@@ -67,6 +71,11 @@
     height: calc(100%)
     overflow-y: auto;
 }
+
+
+
+
+
 .content {
     padding: 20px 20px 10px; 
     background-color: white; 
@@ -111,7 +120,6 @@
             </ul>
         </nav>
 
-        <!-- Main Content -->
         <div class="main-content">
             <div class="content">
                 @yield('content')

@@ -11,7 +11,7 @@
 
    <style>
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Arial', sans-serif; 
             background-color: #f8f9fa;
         }
         h1 {
@@ -30,6 +30,7 @@
         .table {
             background-color: white;
             border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
         }
         .table th {
             background-color: #004581;

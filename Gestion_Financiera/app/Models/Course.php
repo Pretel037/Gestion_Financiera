@@ -20,5 +20,6 @@ class Course extends Model
         'period',
         'session_link',
         'description',
+        'precio',
     ];
 }

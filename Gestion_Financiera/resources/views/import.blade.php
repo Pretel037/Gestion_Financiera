@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Arial', sans-serif; 
+            height: 100%; 
+            overflow: hidden; 
             background-color: #f5f7fa; 
         }
         .card {
@@ -60,6 +65,14 @@
             border-radius: 8px;
             border: 1px solid #ced4da;
         }
+
+        .main-content {
+    margin-left: 140px;
+    background-color: #ffffff;
+    width: calc(100% - 140px);
+    height: calc(100%);
+    overflow-y: auto;
+}
     </style>
 </head>
 

@@ -11,19 +11,21 @@
 
    <style>
         body {
-            background-color: #f8f9fa;
-            font-family: 'Montserrat', sans-serif;
+   
+            font-family: 'Arial', sans-serif; 
+            overflow: hidden; 
+
         }
         h1 {
             color: #004581;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            font-family:n
+
+            font-family: 'Arial', sans-serif; 
         }
         .table {
             background-color: white;
             box-shadow: 0 4px 8px rgba(255, 255, 255);
             border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
             margin-top: 20px;
         }
         .table th {

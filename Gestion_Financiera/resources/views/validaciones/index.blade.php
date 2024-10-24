@@ -1,93 +1,104 @@
 @extends('index')
 @section('content')
-<style>
-body {
-    background-color: #f8f9fa; 
-    font-family: 'Arial', sans-serif; 
-}
 
-.container {
-    margin-top: 20px; 
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-}
-
-h2 {
-    color: #007bff; 
-    text-align: center; 
-}
-
-.table {
-    border-collapse: collapse; 
-    width: 80%; 
-}
-
-.table th, .table td {
-    padding: 10px; 
-    text-align: center;
-}
-
-.table th {
-    background-color: #007bff;
-    color: white; 
-    border-bottom: 2px solid #dee2e6; 
-}
-
-.table td {
-    border-bottom: 1px solid #dee2e6; 
-}
-
-.btn {
-    margin-top: 5px; 
-}
-
-
-.table-container {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    margin-top: 10px;
-}
-
-/* Estilo para las alertas */
-.swal2-popup {
-    font-size: 1.2em; 
-}
-
-.row {
-    display: flex; 
-    justify-content: space-between; 
-    flex-wrap: wrap; 
-}
-
-.col-md-6 {
-    flex: 1;
-    margin: 10px;
-    min-width: 300px; 
-}
-
-.grid-container {
-    display: grid; 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 5px; 
-}
-
-.grid-item {
-    background: #fff;
-    padding: 15px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-}
-</style>
 
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <style>
+        
+        body {
+                font-family: 'Arial', sans-serif; 
+        }
+    
+        .container {
+            margin-top: 20px; 
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+        }
+    
+   
+    
+        h2 {
+            color: #007bff; 
+            text-align: center; 
+        }
+    
+        .table {
+            border-collapse: collapse; 
+            width: 80%; 
+            font-family: 'Montserrat', sans-serif;
+        }
+    
+        .table th, .table td {
+            padding: 10px; 
+            text-align: center;
+        }
+    
+        .table th {
+            background-color: #007bff;
+            color: white; 
+            border-bottom: 2px solid #dee2e6; 
+        }
+    
+        .table td {
+            border-bottom: 1px solid #dee2e6; 
+        }
+    
+        .btn {
+            margin-top: 5px; 
+        }
+    
+    
+        .table-container {
+            
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 10px;
+        }
+    
+    
+        .swal2-popup {
+            font-size: 1.2em; 
+        }
+    
+        .row {
+            display: flex; 
+            justify-content: space-between; 
+            flex-wrap: wrap; 
+        }
+    
+        .col-md-6 {
+            flex: 1;
+            margin: 10px;
+            min-width: 300px; 
+        }
+    
+        .grid-container {
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 5px; 
+        }
+    
+        .grid-item {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+    </style>
+
+
+
 </head>
 <div class="container-fluid"> 
     <h2>Validación de Vouchers</h2>

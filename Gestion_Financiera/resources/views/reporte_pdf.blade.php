@@ -11,7 +11,8 @@
 
     <style>
         body {
-            font-family: 'Montserrat', sans-serif;
+     
+            font-family: 'Arial', sans-serif; 
             background-color: #f7f9fc;
             color: #333;
         }
@@ -26,6 +27,7 @@
             color: #018abd;
         }
         table {
+            font-family: 'Montserrat', sans-serif;
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
@@ -79,6 +81,16 @@
                 padding: 8px 16px;
             }
         }
+        .container-fluid {
+        margin-top: 50px;
+        padding: 30px;
+        background-color: #f7f9fc;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+
     </style>
 </head>
 <body>

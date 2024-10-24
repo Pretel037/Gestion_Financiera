@@ -12,12 +12,49 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-    <button type="submit" class="button btn-proceed-checkout" id="buyButton" name="prePago" title="Procesar con el Pago">
-        <span>Procesar con el Pago</span>
-    </button>
-    <a href="{{ route('inicio') }}" class="btn btn-secondary">Volver a la Página Inicial</a>
-        
+    <div class="container mt-5">
+        <h2>Formulario de Pago</h2>
+        <form id="paymentForm">
+            <div class="form-group">
+                <label for="firstName">Nombres</label>
+                <input type="text" class="form-control" id="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Apellidos</label>
+                <input type="text" class="form-control" id="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="dni_comp">DNI</label>
+                <input type="text" class="form-control" id="dni_comp" name="dni_comp" required>
+            </div>
+            <div class="form-group">
+                <label for="correo_comp">Correo Electrónico</label>
+                <input type="email" class="form-control" id="correo_comp" name="correo_comp" required>
+            </div>
+            
 
+            <div class="form-group">
+                <label for="course">Curso</label>
+                <select class="form-control" id="course" required>
+                    <option value="">Selecciona un curso</option>
+                    @foreach ($courses as $course)
+                        <option value="{{ $course->id }}" data-precio="{{ $course->precio }}">
+                            {{ $course->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Precio a Pagar</label>
+                <p id="totalPrice">S/. {{ $totCart}}</p>
+                
+            </div>
+            <button type="submit" class="button btn-proceed-checkout" id="buyButton" name="prePago" title="Procesar con el Pago" disabled>
+                <span>Procesar con el Pago</span>
+            </button>
+        </form>
+        <a href="{{ route('inicio') }}" class="btn btn-secondary mt-3">Volver a la Página Inicial</a>
+    </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -79,39 +116,94 @@
     }
 });
 
-        function culqi() {
-            if (Culqi.token) {
-                var token = Culqi.token.id;
-                var email = Culqi.token.email;
+       // Actualizar la validación del botón
+function toggleBuyButton() {
+    const firstName = $('#firstName').val().trim();
+    const lastName = $('#lastName').val().trim();
+    const course = $('#course').val().trim();
+    const dni = $('#dni_comp').val().trim();
+    const email = $('#correo_comp').val().trim();
 
-                var data = {
-                    id: '{{ $sid }}',
-                    producto: 'Productos varios. Frank Moreno',
-                    precio: totalPago,
-                    token: token,
-                    customer_id: "{{ $dni_comp . '_' . $sid }}",
-                    address: "{{ $direccion }}",
-                    address_city: "{{ $departamento . ' - ' . $provincia }}",
-                    first_name: "{{ $nombre_comp }}",
-                    email: '{{ $correo_comp }}'
-                };
+    // Habilitar el botón solo si todos los campos están llenos
+    $('#buyButton').prop('disabled', !(firstName && lastName && course && dni && email));
+}
 
-                $.post("{{ route('process.payment') }}", data, function(res) {
-                    if (res.status === "success") {
-                        alert('Tu pago se Realizó con éxito. Agradecemos tu preferencia.');
-                        window.location.assign("{{ route('payment.success') }}");
-                    } else {
-                        alert("No se logró realizar el pago: " + res.message);
-                    }
-                }).fail(function(xhr, status, error) {
-                    alert("Error en el proceso de pago: " + error);
-                });
+        // Evento para verificar los campos al escribir
+        $('#firstName, #lastName, #course').on('input', toggleBuyButton);
 
-            } else {
-                console.log(Culqi.error);
-                alert(Culqi.error.user_message);
+
+        // Evento para abrir el modal de pago
+        $('#buyButton').on('click', function(e) {
+            Culqi.open();
+            e.preventDefault();
+        });
+
+
+        /////
+
+
+        $('#course').on('change', function() {
+    // Obtener el precio del curso seleccionado
+    var precioCurso = $(this).find(':selected').data('precio');
+    
+    // Actualizar el precio total
+    $('#totalPrice').text('S/. ' + parseFloat(precioCurso).toFixed(2)); // Actualizar el precio mostrado
+    totalPago = precioCurso * 100; // Actualiza totalPago para el proceso de pago
+});
+
+
+
+
+        // Ajax para el proceso de pago
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }
+        });
+
+
+        function culqi() {
+    if (Culqi.token) {
+        var token = Culqi.token.id;
+        var email = Culqi.token.email;
+        
+        // Obtener el curso seleccionado
+        var cursoSeleccionado = $('#course option:selected');
+        var nombreCurso = cursoSeleccionado.text();
+
+        var data = {
+            id: '{{ $sid }}',
+            producto: nombreCurso,
+            precio: totalPago,
+            token: token,
+            customer_id: $('#dni_comp').val() + '_' + '{{ $sid }}',
+            address: "{{ $direccion }}",
+            address_city: "{{ $departamento . ' - ' . $provincia }}",
+            first_name: $('#firstName').val(),
+            last_name: $('#lastName').val(),
+            email: $('#correo_comp').val(),
+            course_id: $('#course').val(),
+            dni: $('#dni_comp').val(),
+            curso: nombreCurso
+        };
+
+        $.post("{{ route('process.payment') }}", data, function(res) {
+            if (res.status === "success") {
+                alert('Tu pago se Realizó con éxito. Agradecemos tu preferencia.');
+                window.location.assign("{{ route('payment.success') }}");
+            } else {
+                alert("No se logró realizar el pago: " + res.message);
+            }
+        }).fail(function(xhr, status, error) {
+            alert("Error en el proceso de pago: " + error);
+        });
+    } else {
+        console.log(Culqi.error);
+        alert(Culqi.error.user_message);
+    }
+}
+
+
     </script>
 </body>
 </html>

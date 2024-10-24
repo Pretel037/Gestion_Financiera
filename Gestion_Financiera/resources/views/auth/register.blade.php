@@ -4,42 +4,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-<style>
-    .form-group {
-        margin-bottom: 15px;
-        font-family: 'Montserrat', sans-serif;
-        padding: 1%;
-    }
-    h2 {
-        text-align: center;
-        color: #004581;
-        
-        margin-bottom: 20px;
-    }
-    .btn-primary {
-        background-color: #018abd;
-        border-color: #018abd;
-        transition: background-color 0.3s ease;
-    }
-    .btn-primary:hover {
-        background-color: #016a95;
-    }
-    .container-fluid {
-        margin-top: 50px;
-        padding: 30px;
-        background-color: #f7f9fc;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .alert-danger {
-        color: #fff;
-        background-color: #e74c3c;
-        border-color: #e74c3c;
-    }
-    input::placeholder {
-        color: #888;
-    }
-</style>
+<link href="{{ asset('css/registro_nuevo_usuario.css') }}" rel="stylesheet">
 
 <div class="container-fluid"> 
     <div class="row justify-content-center">

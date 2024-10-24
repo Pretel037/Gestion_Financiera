@@ -8,10 +8,15 @@
     <title>Reporte de Cursos</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <style>
+    
         body {
-            background-color: #f8f9fa;
+
+        font-family: 'Arial', sans-serif; 
+ 
+        background-color: #f8f9fa;
             color: #333;
-        }
+    }
+
         .container {
             background-color: #ffffff;
             border-radius: 8px;
@@ -36,6 +41,7 @@
         }
         .table {
             background-color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
         }
         .table thead th {
             background-color: #007bff;
