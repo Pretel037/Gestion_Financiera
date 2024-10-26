@@ -153,9 +153,9 @@
 <body>
     <div class="payment-container">
         <div class="payment-header">
-            <h2>Formulario de Pago</h2>
+            <h2>Pago de Matricula</h2>
         </div>
-    
+
         <form id="paymentForm">
             <div class="form-row">
                 <div class="form-col">
@@ -225,24 +225,24 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="form-group">
-                <label for="course">Curso</label>
+                <label for="course">Matricula</label>
                 <select class="form-control" id="course" required>
-                    <option value="">Selecciona un curso</option>
+                    <option value="">Selecciona la matricula a Pagar</option>
                     @foreach ($courses as $course)
                         <option value="{{ $course->id }}" data-precio="{{ $course->precio }}">
-                            {{ $course->name }}
+                            {{ $course->nombre }}
                         </option>
                     @endforeach
                 </select>
             </div>
-    
+
             <div class="price-display">
                 <label>Precio a Pagar</label>
-                <p id="totalPrice">S/. {{ $totCart }}</p>
+                <p id="totalPrice">S/. {{ $totCart}}</p>
             </div>
-    
+
             <div class="button-container">
                 <button type="submit" class="btn-proceed-checkout" id="buyButton" name="prePago" title="Procesar con el Pago" disabled>
                     <span>Procesar con el Pago</span>

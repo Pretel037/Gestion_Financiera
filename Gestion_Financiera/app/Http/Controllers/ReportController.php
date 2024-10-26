@@ -69,12 +69,18 @@ class ReportController extends Controller
             'teachers.last_name'
         );
     
+    $fechaInicio = null;
+    $fechaFin = null;
+
     if ($request->filled('fecha_inicio') && $request->filled('fecha_fin')) {
         $fechaInicio = Carbon::createFromFormat('Y-m-d', $request->fecha_inicio)->startOfDay();
         $fechaFin = Carbon::createFromFormat('Y-m-d', $request->fecha_fin)->endOfDay();
         
         $query->whereBetween('vouchers_validados.fecha_pago', [$fechaInicio, $fechaFin]);
     } else {
+        $fechaInicio = Carbon::now()->startOfMonth();
+        $fechaFin = Carbon::now()->endOfMonth();
+        
         $query->whereYear('vouchers_validados.fecha_pago', Carbon::now()->year)
               ->whereMonth('vouchers_validados.fecha_pago', Carbon::now()->month);
     }
@@ -82,8 +88,16 @@ class ReportController extends Controller
     $query->groupBy('vouchers_validados.nombre_curso_servicio', 'teachers.first_name', 'teachers.last_name');
     $pagos = $query->get();
 
-    // Genera el PDF
-    $pdf = PDF::loadView('cursos_reporte', compact('pagos'));
+    $data = [
+        'pagos' => $pagos,
+        'fechaInicio' => $fechaInicio,
+        'fechaFin' => $fechaFin
+    ];
+
+    $pdf = PDF::loadView('reporte_cursos_pdf', $data);
+    
+    // Configura el PDF para mejor visualización
+    $pdf->setPaper('A4', 'landscape');
     
     // Descarga el PDF
     return $pdf->download('reporte_cursos.pdf');

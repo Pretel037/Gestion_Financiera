@@ -27,8 +27,18 @@
                     @csrf
                     <div class="mb-3">
                         <label for="codigo_dni" class="form-label">Código/DNI</label>
-                        <input type="text" name="codigo_dni" id="codigo_dni" class="form-control" required>
+                        <input 
+                            type="text" 
+                            name="codigo_dni" 
+                            id="codigo_dni" 
+                            class="form-control" 
+                            required 
+                            pattern="\d{8}" 
+                            inputmode="numeric" 
+                            title="El código/DNI debe tener exactamente 8 dígitos numéricos."
+                        >
                     </div>
+
                     <div class="mb-3">
                         <label for="servicio" class="form-label">Curso</label>
                         <select name="servicio" id="servicio" class="form-control" required>
@@ -51,5 +61,20 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}"
+
+            });
+        @endif
+    });
+    </script>

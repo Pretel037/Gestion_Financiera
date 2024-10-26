@@ -76,7 +76,7 @@ class VoucherReportController extends Controller
         $montosPorDia = $pagosPorDia->pluck('monto_total')->toArray();
     
         // Generar el PDF con los datos
-        $pdf = PDF::loadView('reporte_pdf', compact('numeroVouchers', 'ingresosTotales', 'dias', 'numeroVouchersPorDia', 'montosPorDia', 'mes', 'año'));
+        $pdf = PDF::loadView('reporte_pdf_1', compact('numeroVouchers', 'ingresosTotales', 'dias', 'numeroVouchersPorDia', 'montosPorDia', 'mes', 'año'));
     
         // Descargar el PDF
         return $pdf->download('reporte_vouchers_' . $mes . '_' . $año . '.pdf');

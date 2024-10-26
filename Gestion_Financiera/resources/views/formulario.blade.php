@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <div class="card payment-option" onclick="redirectToRoute('{{ route('payment.form') }}')">
+                <div class="card payment-option" onclick="redirectToRoute('{{ route('pagos1') }}')">
                     <img src="https://img.freepik.com/vector-premium/metodo-pago_7198-28.jpg" alt="Yape Logo" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">Pagar un Servicio</h5>

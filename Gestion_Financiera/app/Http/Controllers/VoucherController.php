@@ -10,28 +10,35 @@ use App\Models\Course;
 class VoucherController extends Controller
 {
     public function process(Request $request)
-    {
-        $request->validate([
-            'voucher_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-    
-        // Guarda la imagen con un nombre basado en el tiempo y el nombre original
-        $image = $request->file('voucher_image');
-        $imageName = time() . '_' . $image->getClientOriginalName();
-        $image->storeAs('public/vouchers', $imageName); // Asegúrate de que la ruta sea correcta
-    
-        // Asegúrate de que la ruta sea correcta
-        $fullImagePath = storage_path('app/public/vouchers/' . $imageName);
-    
-        if (!file_exists($fullImagePath)) {
-            return "Error: Imagen no encontrada en la ruta: " . $fullImagePath;
-        }
-    
-        // Procesar la imagen con OCR
-        $ocr = new TesseractOCR($fullImagePath);
-    $text = $ocr->run();
+{
+    $request->validate([
+        'voucher_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-    
+    // Guarda la imagen con un nombre basado en el tiempo y el nombre original
+    $image = $request->file('voucher_image');
+    $imageName = time() . '_' . $image->getClientOriginalName();
+    $image->storeAs('public/vouchers', $imageName);
+
+    // Ruta completa de la imagen
+    $fullImagePath = storage_path('app/public/vouchers/' . $imageName);
+
+    if (!file_exists($fullImagePath)) {
+        return "Error: Imagen no encontrada en la ruta: " . $fullImagePath;
+    }
+
+    try {
+        $ocr = new TesseractOCR($fullImagePath);
+        $text = $ocr->run();
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Error al procesar la imagen. Por favor, sube una imagen válida.');
+    }
+
+    // Validar que la imagen tenga contenido esperado
+    if (!$this->isVoucherContentValid($text)) {
+        return back()->withErrors(['voucher_image' => 'La imagen no contiene un voucher válido.']);
+    }
+
     // Nuevas extracciones
     $operacion = $this->extractSequence($text);
     $fecha = $this->extractAndConvertOperationDate($text);
@@ -39,12 +46,14 @@ class VoucherController extends Controller
     $monto = $this->extractTotalAmount($text);
     $courses = Course::all();
 
-    // Pasar todos los datos a la vista
-    return view('voucher.result', compact(
-        'operacion', 'fecha',
-         'hora', 'monto','courses'
-    ));
-    }
+    return view('voucher.result', compact('operacion', 'fecha', 'hora', 'monto', 'courses'));
+}
+
+private function isVoucherContentValid($text)
+{
+    // Verifica si el texto extraído tiene elementos específicos de un voucher válido
+    return preg_match('/IMPORTE TOTAL:/', $text) && preg_match('/\d{6}/', $text);
+}
 
     public function confirm(Request $request)
     {

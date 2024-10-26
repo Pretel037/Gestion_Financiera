@@ -6,7 +6,8 @@ use App\Http\Controllers\PlinVoucherController;
 use App\Http\Controllers\YapeVoucherController;
 use App\Http\Controllers\RegisterControllerAuth;
 
-
+use App\Http\Controllers\CulqiController_Servi_Certi;
+use App\Http\Controllers\CulqiController_Servi_Certi1;
 
 use App\Http\Controllers\RegistroVouchers;
 
@@ -29,11 +30,19 @@ use App\Http\Controllers\VoucherReportController;
 use App\Http\Controllers\Voucher_Controller;
 use App\Http\Controllers\ReportController;
 
+use App\Http\Controllers\ReporteCertificado;
+
 
 
 Route::get('/', function () {
     return view('formulario');
 })->name('inicio');
+
+
+Route::get('/pagos1', function () {
+    return view('payment-form1');
+})->name('pagos1');
+
 
 
 
@@ -57,13 +66,35 @@ Route::get('/voucher/success', function () {
 
 
 
-//pagos con culqui
+//pagos con culqui cursos 
 Route::get('/payment', [CulqiController::class, 'showPaymentForm'])->name('payment.form');
 Route::post('/process-payment', [CulqiController::class, 'processPayment'])->name('process.payment');
 Route::get('/payment-success', function() { 
     return view('payment-success'); 
 })->name('payment.success');
 Route::get('/yape-waiting', [CulqiController::class, 'yapeWaiting'])->name('yape.waiting');
+
+
+//pagos con culqui matricula 
+Route::get('/payment1', [CulqiController_Servi_Certi::class, 'showPaymentForm'])->name('payment.form1');
+Route::post('/process-payment1', [CulqiController_Servi_Certi::class, 'processPayment'])->name('process.payment1');
+
+//pagos con culqui certificados 
+Route::get('/payment2', [CulqiController_Servi_Certi1::class, 'showPaymentForm'])->name('payment.form2');
+Route::post('/process-payment2', [CulqiController_Servi_Certi1::class, 'processPayment'])->name('process.2');
+
+
+
+
+
+
+
+
+
+
+
+
+
 //pagos con fin
 
 
@@ -130,12 +161,17 @@ Route::post('/validar-voucher', [Voucher_Controller::class, 'validarVoucher'])->
 
 
     // reportes de cursos balance
-
     Route::get('/reportes/pagos', [ReportController::class, 'obtenerPagos'])->name('reportes.obtenerPagos');
-
     // Ruta para generar el PDF
     Route::get('/reportes/pagos/pdf', [ReportController::class, 'generarPDF'])->name('reportes.generarPDF');
 
+    // reportes de cursos balance
+    Route::get('/reportes/pagoscerti', [ReporteCertificado::class, 'obtenerPagos'])->name('reportes.obtenerPagos1');
+    // Ruta para generar el PDF
+    Route::get('/reportes/pagoscerti/pdf', [ReporteCertificado::class, 'generarPDF'])->name('reportes.generarPDF1');
+
+
+    
 
 
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Usuarios;
+use App\Models\User;
 class AuthController extends Controller
 {
    // Muestra el formulario de inicio de sesión

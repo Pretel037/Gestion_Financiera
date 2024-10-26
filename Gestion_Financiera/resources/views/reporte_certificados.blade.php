@@ -1,14 +1,10 @@
-@extends('index')
-@section('content')
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Ingresos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
+    <title>Reporte de Certificados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         :root {
             --primary-color: #2563eb;
@@ -44,11 +40,6 @@
             padding: 2rem;
             max-width: 1400px;
             margin: 0 auto;
-        }
-
-        .dashboard-header {
-            margin-bottom: 2rem;
-            padding: 1rem 0;
         }
 
         .filter-card {
@@ -144,45 +135,52 @@
 </head>
 <body>
     <div class="page-container">
-    <h1 class="text-center mt-4">Balance de Ingresos - {{ $mes }}/{{ $año }}</h1>
-    <h2 class="text-center">Número de alumnos: {{ $numeroVouchers }}</h2>
-    <h2 class="text-center">Ingresos del mes: S/ {{ number_format($ingresosTotales, 2) }}</h2>
+        <div class="dashboard-header">
+            <h1>Reporte de Certificados</h1>
+        </div>
 
-    <h3 class="text-center mt-4">Resumen de pagos por día</h3>
-    <table class="table table-striped table-bordered mt-3">
-        <thead class="thead-dark">
-            <tr>
-                <th>Día</th>
-                <th>Número de Vouchers</th>
-                <th>Monto Total (S/)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($dias as $index => $dia)
-                <tr>
-                    <td>{{ $dia }}</td>
-                    <td>{{ $numeroVouchersPorDia[$index] }}</td>
-                    <td>S/ {{ number_format($montosPorDia[$index], 2) }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <div class="filter-card">
+            <h2>Filtrar por Fecha</h2>
+            <form action="{{ route('reportes.obtenerPagos1') }}" method="GET">
+                <div class="form-group">
+                    <input type="date" name="fecha_inicio" class="form-control" placeholder="Fecha Inicio" required>
+                    <input type="date" name="fecha_fin" class="form-control" placeholder="Fecha Fin" required>
+                </div>
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                    <a href="{{ route('reportes.generarPDF1', ['fecha_inicio' => request('fecha_inicio'), 'fecha_fin' => request('fecha_fin')]) }}" class="btn btn-primary">
+                        <i class="fas fa-file-pdf"></i> Descargar PDF
+                    </a>
+                </div>
+            </form>
+        </div>
 
-    <!-- Botón para descargar el PDF -->
-    <div class="text-center mt-4">
-        <form action="{{ route('descargarPDF') }}" method="POST" class="d-inline">
-            @csrf
-            <input type="hidden" name="mes" value="{{ $mes }}">
-            <input type="hidden" name="año" value="{{ $año }}">
-            <button type="submit" class="btn btn-primary">
-                <i class="fa fa-download"></i> Descargar PDF
-            </button>
-        </form>
+        <div class="table-container">
+            @if($pagos->isEmpty())
+                <div class="empty-state">No hay registros para mostrar.</div>
+            @else
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Certificado</th>
+                            <th>Número de Operación</th>
+                            <th>Fecha de Pago</th>
+                            <th>Total Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pagos as $pago)
+                            <tr>
+                                <td>{{ $pago->nombre_certificado }}</td>
+                                <td>{{ $pago->numero_operacion }}</td>
+                                <td>{{ \Carbon\Carbon::parse($pago->fecha_pago)->format('d/m/Y') }}</td>
+                                <td>${{ number_format($pago->total_monto, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+        </div>
     </div>
-</div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-@endsection
-

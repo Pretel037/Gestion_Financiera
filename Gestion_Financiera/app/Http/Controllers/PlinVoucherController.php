@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use App\Models\Voucher;
+use App\Models\Course;
 use Carbon\Carbon;
 use App\Http\Controllers\DateTime;
 
@@ -28,18 +29,21 @@ class PlinVoucherController extends Controller
             return "Error: Imagen no encontrada en la ruta: " . $fullImagePath;
         }
 
-        // Procesar la imagen con OCR
-        $ocr = new TesseractOCR($fullImagePath);
-        $text = $ocr->run();
+        try {
+            $ocr = new TesseractOCR($fullImagePath);
+            $text = $ocr->run();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al procesar la imagen. Por favor, sube una imagen válida.');
+        }
 
         // Extraer datos
         $fecha = $this->extractAndConvertOperationDate($text);
         $operacion = $this->operacion($text);
         $monto = $this->Monto($text);
         $hora = $this->hora($text);
-
+        $courses = Course::all();
         // Pasar los datos a una vista previa para confirmar
-        return view('voucher.Plinresul', compact('fecha', 'operacion', 'monto', 'hora', 'imageName'));
+        return view('voucher.Plinresul', compact('fecha', 'operacion', 'monto', 'hora','courses','imageName'));
     }
 
 

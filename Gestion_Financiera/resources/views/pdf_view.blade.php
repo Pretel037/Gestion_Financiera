@@ -21,11 +21,11 @@
     <table>
         <thead>
             <tr>
-                <th>Curso</th>
+                <th>Cursos</th>
                 <th>Número de Vouchers</th>
                 <th>Total Monto</th>
                 <th>Números de Operación</th>
-                <th>Profesor</th>
+                <th>Profesores</th>
             </tr>
         </thead>
         <tbody>

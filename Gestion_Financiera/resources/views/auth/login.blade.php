@@ -22,7 +22,7 @@
     <form action="{{ url('login') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="email">Correo Electrónico</label>
+            <label for="email">Correos Electrónico</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="form-group">

@@ -1,0 +1,189 @@
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #2d3436;
+            padding: 40px 0;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .custom-title {
+            color: #005089;
+            font-weight: 600;
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .custom-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #018abd, #005089);
+            border-radius: 2px;
+        }
+
+        .payment-options-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .payment-option {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+            border: 2px solid #e9ecef;
+        }
+
+        .payment-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(1,138,189,0.15);
+        }
+
+        .payment-option.selected {
+            border: 3px solid #018abd;
+            box-shadow: 0 8px 20px rgba(1,138,189,0.2);
+        }
+
+        .payment-option img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .payment-option .card-body {
+            padding: 15px;
+            text-align: center;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .payment-option .card-title {
+            margin: 0;
+            color: #005089;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .voucher-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-top: 40px;
+        }
+
+        .example-image {
+            display: block;
+            max-width: 300px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #005089;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .upload-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px dashed #018abd;
+        }
+
+        .form-label {
+            color: #005089;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #018abd;
+            box-shadow: 0 0 0 0.2rem rgba(1,138,189,0.15);
+        }
+
+        .btn-process {
+            background: linear-gradient(to right, #018abd, #005089);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(1,138,189,0.2);
+        }
+
+        .btn-back {
+            background: #f8f9fa;
+            color: #005089;
+            padding: 12px 30px;
+            border-radius: 10px;
+            border: 2px solid #005089;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .btn-back:hover {
+            background: #005089;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+            
+            .payment-options-container,
+            .voucher-section {
+                padding: 20px;
+            }
+            
+            .custom-title {
+                font-size: 24px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+        }

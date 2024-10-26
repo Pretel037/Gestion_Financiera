@@ -53,7 +53,7 @@
 <body>
     <div class="container">
         <i class="fas fa-check-circle icon"></i>
-        <h1>¡Voucher guardado correctamenteee!</h1>
+        <h1>¡Pago Realizado Correctamente!</h1>
         <a href="{{ route('inicio') }}">Volver</a>
     </div>
 </body>

@@ -9,16 +9,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-   <style>
+    <style>
         body {
-   
             font-family: 'Arial', sans-serif; 
             overflow: hidden; 
-
         }
         h1 {
             color: #004581;
-
             font-family: 'Arial', sans-serif; 
         }
         .table {
@@ -46,6 +43,23 @@
 <body>
     <div class="container-fluid">
         <h1 class="text-center">Vouchers Validados</h1>
+        
+        <!-- Formulario de búsqueda -->
+        <form method="GET" action="{{ route('vouchers') }}" class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" name="numero_operacion" class="form-control" placeholder="N° operación" value="{{ request('numero_operacion') }}">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="codigo_dni" class="form-control" placeholder="DNI/Código" value="{{ request('codigo_dni') }}">
+                </div>
+                <div class="col-md-4">
+                    <input type="date" name="fecha_pago" class="form-control" value="{{ request('fecha_pago') }}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Buscar</button>
+        </form>
+
         <div class="table-responsive">
             <table class="table table-striped table-hover table-bordered">
                 <thead>

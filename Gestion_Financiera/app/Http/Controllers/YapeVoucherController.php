@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use App\Models\Voucher;
-
+use App\Models\Course;
+use Carbon\Carbon;
+use App\Http\Controllers\DateTime;
 class YapeVoucherController extends Controller
 {
     public function process(Request $request)
@@ -26,18 +28,21 @@ class YapeVoucherController extends Controller
             return "Error: Imagen no encontrada en la ruta: " . $fullImagePath;
         }
 
-        // Procesar la imagen con OCR
-        $ocr = new TesseractOCR($fullImagePath);
-        $text = $ocr->run();
+        try {
+            $ocr = new TesseractOCR($fullImagePath);
+            $text = $ocr->run();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al procesar la imagen. Por favor, sube una imagen válida.');
+        }
 
         // Extraer datos
-        $fecha = $this->Fecha($text);
+        $fecha = $this->extractAndConvertOperationDate($text);
         $operacion = $this->operacion($text);
         $monto = $this->Monto($text);
         $hora = $this->hora($text);
-
+        $courses = Course::all();
         // Pasar los datos a una vista previa para confirmar
-        return view('voucher.Plinresul', compact('fecha', 'operacion', 'monto', 'hora', 'imageName'));
+        return view('voucher.Plinresul', compact('fecha', 'operacion', 'monto', 'hora','courses','imageName'));
     }
 
 
@@ -60,6 +65,34 @@ class YapeVoucherController extends Controller
 
 
 
+    private function extractAndConvertOperationDate($text)
+    {
+        
+        if (preg_match('/(\d{2}) (\w{3}) (\d{4})/', $text, $matches)) {
+            $dia = $matches[1];
+            $mesAbreviado = $matches[2];
+            $anio = $matches[3];
+    
+            // Mapeo de abreviaturas de meses en español a números
+            $meses = [
+                'Ene' => '01', 'Feb' => '02', 'Mar' => '03', 'Abr' => '04',
+                'May' => '05', 'Jun' => '06', 'Jul' => '07', 'Ago' => '08',
+                'Sep' => '09', 'Oct' => '10', 'Nov' => '11', 'Dic' => '12'
+            ];
+    
+            if (isset($meses[$mesAbreviado])) {
+                $mes = $meses[$mesAbreviado];
+                // Retorna la fecha en el formato Y-m-d (YYYY-MM-DD)
+                return Carbon::createFromFormat('Y-m-d', "$anio-$mes-$dia")->format('Y-m-d');
+            }
+        }
+    
+        return 'No encontrado'; // Retorna 'No encontrado' si no se puede extraer o convertir la fecha
+    }
+
+
+
+
     private function processMonto($montoStr)
     {
         // Eliminar el símbolo de moneda y espacios
@@ -69,31 +102,42 @@ class YapeVoucherController extends Controller
         return floatval($montoStr);
     }
 
-   
-
-    private function hora($text)
+    private function Fecha($text)
     {
-        preg_match('/\d{2}:\d{2} [APM]{2}/i', $text, $matches);
+        preg_match('/\d{2} \w+ \d{4}/', $text, $matches);
         return $matches[0] ?? 'No encontrado';
     }
 
+    private function hora($text)
+    {
+    // Extrae la hora con AM o PM
+    if (preg_match('/\d{2}:\d{2} [APM]{2}/i', $text, $matches)) {
+        $horaStr = $matches[0];
+
+        // Convierte la hora de 12 horas (AM/PM) a 24 horas
+        $dateTime = \DateTime::createFromFormat('h:i A', $horaStr);
+        
+        if ($dateTime) {
+            // Devuelve la hora en formato de 24 horas (HH:mm)
+            return $dateTime->format('H:i');
+        }
+    }
+
+   
+    return 'No encontrado';
+    }
+
     private function operacion($text)
-{
-    preg_match('/Número de operación\s*(\d+)/', $text, $matches);
-    return $matches[1] ?? 'No encontrado';
-}
+    {
+        preg_match_all('/\b\d{8}\b/', $text, $matches);
+        return $matches[0][0] ?? 'No encontrado';
+    }
 
-private function Monto($text)
-{
-    preg_match('/Total del consumo\s*([\S\s]*?)(\d+,\d{2})/', $text, $matches);
-    return $matches[2] ?? 'No encontrado'; // Adjusted to return the second capturing group
-}
-
-private function Fecha($text)
-{
-    preg_match('/(\d{2} de \w+ de \d{4} - \d{1,2}:\d{2} [APM]{2})/', $text, $matches);
-    return $matches[1] ?? 'No encontrado'; // Adjusted to return the first capturing group
-}
+    private function Monto($text)
+    {
+        preg_match('/S\/\s?\d+(?:\.\d{2})?/', $text, $matches);
+        return $matches[0] ?? 'No encontrado';
+    }
 
   
 }
