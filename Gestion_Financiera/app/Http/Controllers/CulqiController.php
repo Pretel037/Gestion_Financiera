@@ -115,8 +115,9 @@ class CulqiController extends Controller
             $voucherValidado->monto = $request->precio / 100; 
             $voucherValidado->nombre_curso_servicio = $request->curso;
             $voucherValidado->estado = 1;
-          $voucherValidado->numero_operacion = now()->format('dmYHis'); 
+            $voucherValidado->numero_operacion = now()->format('dmYHis'); 
 
+         
     
             if (!$voucherValidado->save()) {
                 \Log::error('Error al guardar el voucher:', ['voucher' => $voucherValidado]);

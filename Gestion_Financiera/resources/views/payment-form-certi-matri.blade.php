@@ -1,3 +1,6 @@
+
+@extends('index')
+@section('content')
 <!DOCTYPE html>
 <html>
 <head>
@@ -405,3 +408,4 @@ function toggleBuyButton() {
     </script>
 </body>
 </html>
+@endsection

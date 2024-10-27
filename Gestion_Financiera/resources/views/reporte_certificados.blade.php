@@ -1,3 +1,6 @@
+@extends('index')
+@section('content')
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,11 +20,12 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
 
         h1, h2 {
             text-align: center;
@@ -37,10 +41,10 @@
         }
 
         .page-container {
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
         .filter-card {
             background-color: var(--card-background);
@@ -184,3 +188,4 @@
     </div>
 </body>
 </html>
+@endsection
